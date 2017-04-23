@@ -104,12 +104,20 @@ export class MainScreen extends Component {
           Shake or press menu button for dev menu
         </Text>
 
-        <Button
-          onPress={() => navigate('Create')}
-          title="Create Reminder"
-          color="#841584"
-          accessibilityLabel="Click to create a new reminder"
-        />
+        <View style={{flexDirection: 'column', justifyContent: 'space-around', height: 100}}>
+          <Button
+            onPress={() => navigate('Create')}
+            title="Create Reminder"
+            color="#101080"
+            accessibilityLabel="Click to create a new reminder"
+          />
+
+          <Button
+            onPress={() => PushNotification.cancelAllLocalNotifications()}
+            title="Cancel Reminders"
+            accessibilityLabel="Click to delete all existing reminders"
+          />
+        </View>
       </View>
     );
   }
@@ -137,7 +145,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
-  },
+  }
 });
 
 AppRegistry.registerComponent('RemindMe', () => RemindMe);
