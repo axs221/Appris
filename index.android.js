@@ -34,7 +34,7 @@ export class CreateScreen extends Component {
 
     this.state = {
       message: 'Remind me to...',
-      seconds: '10'
+      seconds: '5'
     };
   }
 
