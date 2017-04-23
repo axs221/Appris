@@ -15,12 +15,12 @@ import {
 import PushNotification from 'react-native-push-notification';
 
 PushNotification.configure({
-	onNotification: function(notification) {
-		console.log( 'NOTIFICATION:', notification );
-	},
+  onNotification: function(notification) {
+    console.log( 'NOTIFICATION:', notification );
+  },
 
-	popInitialNotification: true,
-	requestPermissions: true,
+  popInitialNotification: true,
+  requestPermissions: true,
 });
 
 
@@ -42,8 +42,8 @@ export class CreateScreen extends Component {
     console.log(this.state, new Date(Date.now() + (parseInt(this.state.seconds) * 1000)).toString());
 
     PushNotification.localNotificationSchedule({
-			vibration: 300,
-			title: this.state.message,
+      vibration: 300,
+      title: this.state.message,
       message: this.state.message,
       date: new Date(Date.now() + (parseInt(this.state.seconds) * 1000))
     });
@@ -54,23 +54,23 @@ export class CreateScreen extends Component {
 
     return (
       <View style={styles.container}>
-				<Text style={styles.welcome}>
-					Let's create something!
-				</Text>
+        <Text style={styles.welcome}>
+          Let's create something!
+        </Text>
 
         <Text>Message</Text>
-				<TextInput
-					style={{height: 40, width: 250, borderColor: 'gray', borderWidth: 1}}
-					onChangeText={(message) => this.setState({message})}
-					value={this.state.message}
-				/>
+        <TextInput
+          style={{height: 40, width: 250, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(message) => this.setState({message})}
+          value={this.state.message}
+        />
 
         <Text>Seconds</Text>
-				<TextInput
-					style={{height: 40, width: 250, borderColor: 'gray', borderWidth: 1}}
-					onChangeText={(seconds) => this.setState({seconds})}
-					value={this.state.seconds}
-				/>
+        <TextInput
+          style={{height: 40, width: 250, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(seconds) => this.setState({seconds})}
+          value={this.state.seconds}
+        />
 
         <Button
           onPress={this.scheduleNotification.bind(this)}
@@ -104,12 +104,12 @@ export class MainScreen extends Component {
           Shake or press menu button for dev menu
         </Text>
 
-				<Button
+        <Button
           onPress={() => navigate('Create')}
-					title="Create Reminder"
-					color="#841584"
-					accessibilityLabel="Click to create a new reminder"
-				/>
+          title="Create Reminder"
+          color="#841584"
+          accessibilityLabel="Click to create a new reminder"
+        />
       </View>
     );
   }
