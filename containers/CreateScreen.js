@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import PushNotification from 'react-native-push-notification';
 
 import {
   Button,
+  StyleSheet,
   Text,
   TextInput,
   View
 } from 'react-native';
+
+import * as reminders from '../api/reminders';
 
 export class CreateScreen extends Component {
   static navigationOptions = {
@@ -23,14 +25,11 @@ export class CreateScreen extends Component {
   }
 
   scheduleNotification() {
-    console.log(this.state, new Date(Date.now() + (parseInt(this.state.seconds) * 1000)).toString());
+    const { navigate } = this.props.navigation;
 
-    PushNotification.localNotificationSchedule({
-      vibration: 300,
-      title: this.state.message,
-      message: this.state.message,
-      date: new Date(Date.now() + (parseInt(this.state.seconds) * 1000))
-    });
+    reminders
+      .create({ ...this.state })
+      .then(() => navigate('Home'));
   }
 
   render() {
@@ -67,3 +66,21 @@ export class CreateScreen extends Component {
   }
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  }
+});

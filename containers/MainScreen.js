@@ -8,6 +8,8 @@ import {
   View
 } from 'react-native';
 
+import * as reminders from '../api/reminders';
+
 export class MainScreen extends Component {
   static navigationOptions = {
     title: 'Welcome',
@@ -29,7 +31,7 @@ export class MainScreen extends Component {
           Shake or press menu button for dev menu
         </Text>
 
-        <View style={{flexDirection: 'column', justifyContent: 'space-around', height: 100}}>
+        <View style={{flexDirection: 'column', justifyContent: 'space-around', height: 120}}>
           <Button
             onPress={() => navigate('Create')}
             title="Create Reminder"
@@ -38,9 +40,10 @@ export class MainScreen extends Component {
           />
 
           <Button
-            onPress={() => PushNotification.cancelAllLocalNotifications()}
-            title="Cancel Reminders"
-            accessibilityLabel="Click to delete all existing reminders"
+            onPress={() => navigate('List')}
+            title="Show Reminders"
+            color="#101080"
+            accessibilityLabel="Click to create a new reminder"
           />
         </View>
       </View>
