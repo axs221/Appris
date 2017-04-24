@@ -22,13 +22,12 @@ export function create(reminderData) {
     id: reminderData.id,
     vibration: 300,
     message: reminderData.message,
-    date: new Date(Date.now() + (parseInt(reminderData.seconds) * 1000))
+    date: new Date(reminderData.date.getTime()
+      + (parseInt(reminderData.hour) * 60 * 60 * 1000)
+      + (parseInt(reminderData.minute) * 60 * 1000))
   });
 
-  console.log('ID', reminderData.id);
-
   all.push(reminderData);
-  console.log('RETURNING AFTER CREATE');
   return db.set(all);
 }
 
@@ -43,7 +42,6 @@ export function startListening() {
   return new Promise(resolve => {
     db.on('value', (snapshot) => {
       const data = snapshot.val();
-      console.log('VALUES', data);
       all = data || [];
 
       resolve(all);

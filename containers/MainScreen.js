@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import PushNotification from 'react-native-push-notification';
 
 import {
+  NavigationActions
+} from 'react-navigation';
+
+import {
   Button,
   StyleSheet,
   Text,
@@ -12,8 +16,30 @@ import * as reminders from '../api/reminders';
 
 export class MainScreen extends Component {
   static navigationOptions = {
-    title: 'Welcome',
+    title: 'RemindMe!',
   };
+
+  constructor(props) {
+    super(props);
+
+    const { dispatch } = props.navigation;
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Main'})
+      ]
+    })
+
+    PushNotification.configure({
+      onNotification: function(notification) {
+        reminders.remove(notification.id);
+        dispatch(resetAction)
+      },
+
+      popInitialNotification: true,
+      requestPermissions: true,
+    });
+  }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -21,14 +47,7 @@ export class MainScreen extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
+          Welcome to RemindMe!
         </Text>
 
         <View style={{flexDirection: 'column', justifyContent: 'space-around', height: 120}}>

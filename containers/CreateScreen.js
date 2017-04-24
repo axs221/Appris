@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 
 import {
   Button,
+  DatePickerAndroid,
+  Keyboard,
   StyleSheet,
   Text,
   TextInput,
+  TimePickerAndroid,
+  TouchableWithoutFeedback,
   View
 } from 'react-native';
 
@@ -18,9 +22,17 @@ export class CreateScreen extends Component {
   constructor(props) {
     super(props);
 
+    const now = new Date();
+    const date = new Date();
+    date.setHours(0,0,0,0);
+
     this.state = {
-      message: 'Remind me to...',
-      seconds: '5'
+      date,
+      dateText: `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`,
+      hour: now.getHours(),
+      message: '',
+      minute: now.getMinutes(),
+      timeText: 'pick a time',
     };
   }
 
@@ -29,37 +41,84 @@ export class CreateScreen extends Component {
 
     reminders
       .create({ ...this.state })
-      .then(() => navigate('Home'));
+      .then(() => navigate('List'));
   }
+
+  showTimePicker = async (options) => {
+  const {action, minute, hour} = await TimePickerAndroid.open();
+
+  var newState = {};
+
+    if (action === TimePickerAndroid.timeSetAction) {
+      newState['timeText'] = this.formatTime(hour, minute);
+      newState['hour'] = hour;
+      newState['minute'] = minute;
+    }
+
+    this.setState(newState);
+  };
+
+  /**
+  * Returns e.g. '3:05'.
+  */
+  formatTime(hour, minute) {
+    return hour + ':' + (minute < 10 ? '0' + minute : minute);
+  }
+
+  showDatePicker = async (options = {}) => {
+    var newState = {};
+
+    const {action, year, month, day} = await DatePickerAndroid.open(options);
+
+    if (action === DatePickerAndroid.dismissedAction) {
+      newState['dateText'] = 'dismissed';
+    } else {
+      var date = new Date(year, month, day);
+      newState['dateText'] = date.toLocaleDateString();
+      newState['date'] = date;
+    }
+
+    this.setState(newState);
+  };
 
   render() {
     const { navigate } = this.props.navigation;
 
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Let's create something!
-        </Text>
 
         <Text>Message</Text>
         <TextInput
+          returnKeyType={'next'}
+          autoFocus={true}
           style={{height: 40, width: 250, borderColor: 'gray', borderWidth: 1}}
           onChangeText={(message) => this.setState({message})}
+          onSubmitEditing={this.showTimePicker.bind(this)}
           value={this.state.message}
         />
 
-        <Text>Seconds</Text>
-        <TextInput
-          style={{height: 40, width: 250, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(seconds) => this.setState({seconds})}
-          value={this.state.seconds}
-        />
+        <TouchableWithoutFeedback
+          onPress={this.showTimePicker.bind(this)}>
+          <View>
+            <Text style={styles.text}>{this.state.timeText}</Text>
+          </View>
+        </TouchableWithoutFeedback>
+
+        <TouchableWithoutFeedback
+          onPress={this.showDatePicker.bind(this, {
+            date: new Date(),
+            minDate: new Date(),
+          })}>
+          <View>
+            <Text style={styles.text}>{this.state.dateText}</Text>
+          </View>
+        </TouchableWithoutFeedback>
 
         <Button
           onPress={this.scheduleNotification.bind(this)}
           title="Schedule Reminder!"
           color="#997788"
-          accessibilityLabel="Schedule reminder message in number of seconds"
+          accessibilityLabel="Schedule reminder message at date and time selected"
         />
       </View>
     );

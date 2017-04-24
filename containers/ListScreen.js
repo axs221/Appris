@@ -23,16 +23,13 @@ export class ListScreen extends Component {
       dataSource: this.ds.cloneWithRows(reminders.all),
     };
 
-    // if (!reminders.started) {
     reminders.startListening()
       .then(() => this.setState({
         dataSource: this.ds.cloneWithRows(reminders.all),
       }));
-    // }
   }
 
   remove(reminder) {
-    console.log('REMINDER', reminder);
     reminders
       .remove(reminder)
       .then(() => this.setState({
@@ -49,7 +46,7 @@ export class ListScreen extends Component {
             console.log('Foo');
             return (
               <View>
-                <Text style={styles.listItem}>{reminder.message}</Text>
+                <Text style={styles.listItem}>{reminder.message} {reminder.dateText} {reminder.hour}:{reminder.minute}</Text>
                 <Button
                   onPress={() => this.remove(reminder.id)}
                   title="Delete"
