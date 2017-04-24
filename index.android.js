@@ -19,11 +19,11 @@ import {
   MainScreen
 } from './containers';
 
-const RemindMe = StackNavigator({
+const Appris = StackNavigator({
   Main: {screen: MainScreen},
 
   Create: {screen: CreateScreen},
   List: {screen: ListScreen},
 });
 
-AppRegistry.registerComponent('RemindMe', () => RemindMe);
+AppRegistry.registerComponent('Appris', () => Appris);

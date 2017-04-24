@@ -16,7 +16,7 @@ import * as reminders from '../api/reminders';
 
 export class MainScreen extends Component {
   static navigationOptions = {
-    title: 'RemindMe!',
+    title: 'Appris!',
   };
 
   constructor(props) {
@@ -47,7 +47,7 @@ export class MainScreen extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to RemindMe!
+          Welcome to Appris!
         </Text>
 
         <View style={{flexDirection: 'column', justifyContent: 'space-around', height: 120}}>
