@@ -43,7 +43,6 @@ export class ListScreen extends Component {
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(reminder) => {
-            console.log('Foo');
             return (
               <View>
                 <Text style={styles.listItem}>{reminder.message} {reminder.dateText} {reminder.hour}:{reminder.minute}</Text>

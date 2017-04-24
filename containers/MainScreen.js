@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import * as reminders from '../api/reminders';
+import * as localReminders from '../api/localReminders';
 
 export class MainScreen extends Component {
   static navigationOptions = {
