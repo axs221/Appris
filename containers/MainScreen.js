@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import PushNotification from 'react-native-push-notification';
 
 import {
+  ListScreen
+} from './';
+
+import {
   NavigationActions
 } from 'react-navigation';
 
@@ -17,7 +21,7 @@ import * as localReminders from '../api/localReminders';
 
 export class MainScreen extends Component {
   static navigationOptions = {
-    title: 'Appris!',
+    title: 'Today',
   };
 
   constructor(props) {
@@ -47,11 +51,9 @@ export class MainScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to Appris!
-        </Text>
+        <ListScreen />
 
-        <View style={{flexDirection: 'column', justifyContent: 'space-around', height: 120}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-around', marginBottom: 100}}>
           <Button
             onPress={() => navigate('Create')}
             title="Create Reminder"
@@ -60,8 +62,8 @@ export class MainScreen extends Component {
           />
 
           <Button
-            onPress={() => navigate('List')}
-            title="Show Reminders"
+            onPress={() => navigate('List', { showAll: true })}
+            title="Show All Reminders"
             color="#101080"
             accessibilityLabel="Click to create a new reminder"
           />
@@ -74,9 +76,9 @@ export class MainScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#f5f8FF',
   },
   welcome: {
     fontSize: 20,

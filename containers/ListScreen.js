@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {
   Button,
   ListView,
+  ScrollView,
   StyleSheet,
   Text,
   View
@@ -12,20 +13,20 @@ import * as reminders from '../api/reminders';
 
 export class ListScreen extends Component {
   static navigationOptions = {
-    title: 'Current Reminders',
+    title: 'All Reminders',
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
-      dataSource: this.ds.cloneWithRows(reminders.all),
+      dataSource: this.ds.cloneWithRows(this.props.navigation && this.props.navigation.state.params.showAll ? reminders.all : reminders.today())
     };
 
     reminders.startListening()
       .then(() => this.setState({
-        dataSource: this.ds.cloneWithRows(reminders.all),
+        dataSource: this.ds.cloneWithRows(this.props.navigation && this.props.navigation.state.params.showAll ? reminders.all : reminders.today())
       }));
   }
 
@@ -33,19 +34,22 @@ export class ListScreen extends Component {
     reminders
       .remove(reminder)
       .then(() => this.setState({
-        dataSource: this.ds.cloneWithRows(reminders.all),
+        dataSource: this.ds.cloneWithRows(this.props.navigation && this.props.navigation.state.params.showAll ? reminders.all : reminders.today())
       }));
   }
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={{margin: 10}}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(reminder) => {
             return (
-              <View>
-                <Text style={styles.listItem}>{reminder.message} {reminder.dateText} {reminder.hour}:{reminder.minute}</Text>
+              <View style={styles.row}>
+                <View style={{'flexDirection': 'column', 'flex': 1, 'alignItems': 'flex-start'}}>
+                  <Text style={styles.message}>{reminder.message}</Text>
+                  <Text style={styles.dateTime}>{reminder.dateText} {reminder.hour}:{reminder.minute}</Text>
+                </View>
                 <Button
                   onPress={() => this.remove(reminder.id)}
                   title="Delete"
@@ -54,7 +58,7 @@ export class ListScreen extends Component {
             );
           }}
         />
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -76,10 +80,25 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
-  listItem: {
-    fontSize: 20,
+  message: {
+    fontSize: 18,
+    fontWeight: '600',
     textAlign: 'center',
     color: '#333333',
+    marginBottom: 2,
+    marginTop: 15,
+    flex: 2,
+  },
+  dateTime: {
+    fontSize: 14,
+    textAlign: 'center',
+    color: '#888888',
     marginBottom: 5,
+    flex: 1,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 350,
   }
 });

@@ -23,7 +23,10 @@ const Appris = StackNavigator({
   Main: {screen: MainScreen},
 
   Create: {screen: CreateScreen},
-  List: {screen: ListScreen},
+  List: {
+    path: ':limitToToday',
+    screen: ListScreen
+  },
 });
 
 AppRegistry.registerComponent('Appris', () => Appris);

@@ -16,6 +16,11 @@ const db = firebaseApp.database().ref('reminders');
 export let all = [];
 export let started = false;
 
+export function today() {
+  const todaysDate = new Date();
+  todaysDate.setHours(0, 0, 0, 0);
+  return all.filter(n => new Date(n.dateText).getTime() === todaysDate.getTime());
+}
 
 function schedule(reminderData) {
   PushNotification.localNotificationSchedule({
