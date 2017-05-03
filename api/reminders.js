@@ -16,7 +16,12 @@ const db = firebaseApp.database().ref('reminders');
 export let all = null;
 export let started = false;
 
-export function today() {
+export function getAll() {
+  return all
+    && all.sort((a, b) => getDate(a).getTime() - getDate(b).getTime());
+}
+
+export function getToday() {
   const todaysDate = new Date();
   todaysDate.setHours(0, 0, 0, 0);
   return all && all.filter(n => new Date(n.dateText).getTime() === todaysDate.getTime());
@@ -27,12 +32,16 @@ function schedule(reminderData) {
     id: reminderData.id,
     vibration: 300,
     message: reminderData.message,
-    date: new Date((new Date(reminderData.dateText)).getTime()
-      + (parseInt(reminderData.hour) * 60 * 60 * 1000)
-      + (parseInt(reminderData.minute) * 60 * 1000))
+    date: getDate(reminderData)
   });
 
   localReminders.markScheduled(reminderData.id);
+}
+
+function getDate(reminder) {
+  return new Date((new Date(reminder.dateText)).getTime()
+    + (parseInt(reminder.hour) * 60 * 60 * 1000)
+    + (parseInt(reminder.minute) * 60 * 1000))
 }
 
 export function create(reminderData) {

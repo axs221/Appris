@@ -141,5 +141,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  text: {
+    fontSize: 18,
+    margin: 8,
+    padding: 8,
+    width: 250,
+    borderWidth: 1
   }
 });

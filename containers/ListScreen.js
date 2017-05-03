@@ -34,8 +34,8 @@ export class ListScreen extends Component {
     return (this.props.navigation 
         && this.props.navigation.state.params
         && this.props.navigation.state.params.showAll)
-      ? reminders.all || []
-      : reminders.today() || [];
+      ? reminders.getAll() || []
+      : reminders.getToday() || [];
   }
 
   remove(reminder) {
@@ -49,8 +49,9 @@ export class ListScreen extends Component {
   render() {
     let index = 0;
 
-    const listView = (!reminders.all || this.getReminders().length > 0) ? (
+    const listView = (!reminders.getAll() || this.getReminders().length > 0) ? (
       <ListView
+        style={{ flex: 1, flexDirection: 'column' }}
         dataSource={this.state.dataSource}
         renderRow={(reminder) => {
           const rowStyle = {
@@ -78,7 +79,7 @@ export class ListScreen extends Component {
               </View>
               <Button
                 onPress={() => this.remove(reminder.id)}
-                title="Delete"
+                title='Delete'
               />
             </View>
           );
@@ -91,7 +92,7 @@ export class ListScreen extends Component {
     );
 
     return (
-      <ScrollView >
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         {listView}
       </ScrollView>
     );
@@ -99,6 +100,16 @@ export class ListScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  contentContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    width: 350,
+  },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
