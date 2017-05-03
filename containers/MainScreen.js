@@ -21,7 +21,7 @@ import * as localReminders from '../api/localReminders';
 
 export class MainScreen extends Component {
   static navigationOptions = {
-    title: 'Today',
+    title: 'Appris > Today',
   };
 
   constructor(props) {
@@ -53,7 +53,7 @@ export class MainScreen extends Component {
       <View style={styles.container}>
         <ListScreen />
 
-        <View style={{flexDirection: 'row', justifyContent: 'space-around', marginBottom: 100}}>
+        <View style={{flexDirection: 'row', width: 350, justifyContent: 'space-around', marginBottom: 100}}>
           <Button
             onPress={() => navigate('Create')}
             title="Create Reminder"
@@ -76,7 +76,7 @@ export class MainScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#f5f8FF',
   },

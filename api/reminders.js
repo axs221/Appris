@@ -13,13 +13,13 @@ firebaseApp.auth().signInWithEmailAndPassword(config.auth.email, config.auth.pas
 const db = firebaseApp.database().ref('reminders');
 
 
-export let all = [];
+export let all = null;
 export let started = false;
 
 export function today() {
   const todaysDate = new Date();
   todaysDate.setHours(0, 0, 0, 0);
-  return all.filter(n => new Date(n.dateText).getTime() === todaysDate.getTime());
+  return all && all.filter(n => new Date(n.dateText).getTime() === todaysDate.getTime());
 }
 
 function schedule(reminderData) {
