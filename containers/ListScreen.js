@@ -86,7 +86,7 @@ export class ListScreen extends Component {
         }}
       />
     ) : (
-      <Text style={{marginTop: 200, color: '#aaa', fontSize: 18, fontStyle: 'italic'}}>
+      <Text style={{width: '100%', textAlign: 'center', marginTop: 200, color: '#aaa', fontSize: 18, fontStyle: 'italic'}}>
         No reminders
       </Text>
     );
